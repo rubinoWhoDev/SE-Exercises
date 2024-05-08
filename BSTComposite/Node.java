@@ -1,79 +1,73 @@
-public interface Node{
-    Node insert(int k);
-    void print();
+public interface Node {
+    void addNode(Node new_node);
     boolean includes(int k);
-    Node getLeft();
-    Node getRight();
+    int getKey();
+    void print();
 }
 
-class NullNode implements Node{
-    private static NullNode inst;
+class NullNode implements Node {
     private NullNode() {}
-
-    public static NullNode getInst() {
-        if (inst == null) inst = new NullNode();
-        return inst;
+    private static NullNode instance;
+    public static Node getInstance(){
+        if (instance == null) instance = new NullNode();
+        return instance;
     }
 
-    @Override
-    public void print(){
+    public void addNode(Node new_node){
+        System.out.println("Nodo nullo.");
     }
 
-    @Override
     public boolean includes(int k){
         return false;
     }
 
-    @Override
-    public Node insert(int k){
-        return new BinaryTree(k);
+    public int getKey(){
+        return 0;
     }
 
-    @Override
-    public Node getLeft(){
-        return this;
-    }
-
-    @Override
-    public Node getRight(){
-        return this;
+    public void print(){
+        System.out.print("- ");
     }
 }
 
-class BinaryTree implements Node{
-    private final Node[] children = new Node[2];
+class BinaryNode implements Node {
+    private Node left, right;
     private final int key;
 
-    public BinaryTree(int k) {
+    BinaryNode(int k){
         this.key = k;
-        for (int i = 0; i < children.length; i++) children[i] = NullNode.getInst();
+        left = right = NodeFactory.getNode();
     }
 
-    @Override
-    public void print(){
-        System.out.print(" " + key);
-    }
-
-    @Override
-    public Node insert(int k){
-        if (k >= this.key) children[1] = children[1].insert(k);
-        else children[0] = children[0].insert(k);
-        return this;
-    }
-    @Override
     public boolean includes(int k){
-        if (k == this.key) return true;
-        if (k > this.key) return children[1].includes(k);
-        else return children[0].includes(k);
+        if (k == key) return true;
+        if (k > key) return right.includes(k);
+        else return left.includes(k);
     }
 
-    @Override
-    public Node getLeft(){
-        return children[0];
+    public int getKey(){
+        return key;
     }
 
-    @Override
-    public Node getRight(){
-        return children[1];
+    public void addNode(Node new_node){
+        if (new_node instanceof NullNode){
+            return;
+        }
+
+        if (new_node.getKey() >= this.key) {
+            if (right instanceof NullNode) right = new_node;
+            else right.addNode(new_node);
+        }
+
+        else {
+            if (left instanceof NullNode) left = new_node;
+            else left.addNode(new_node);
+        }
+    }
+
+    public void print(){
+        left.print();
+        System.out.print(key + " ");
+        right.print();
     }
 }

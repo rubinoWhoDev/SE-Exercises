@@ -1,12 +1,13 @@
 public class Main {
     public static void main(String[] args) {
-        BSTFacade myTree = new BSTFacade(new InOrderStrategy());
+        Node myTree = NodeFactory.getNode(4);
 
-        myTree.insert(3);
-        myTree.insert(10);
-        myTree.insert(1);
-        myTree.insert(-2);
-        myTree.insert(11);
+        myTree.addNode(NodeFactory.getNode(5));
+        myTree.addNode(NodeFactory.getNode(3));
+        myTree.addNode(NodeFactory.getNode(1));
+        myTree.addNode(NodeFactory.getNode(6));
+        //myTree.addNode(NullNode.getInstance());
+
 
         myTree.print();
     }
