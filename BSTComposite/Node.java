@@ -13,20 +13,18 @@ class NullNode implements Node {
         return instance;
     }
 
-    public void addNode(Node new_node){
-        System.out.println("Nodo nullo.");
-    }
+    public void addNode(Node new_node) {}
 
     public boolean includes(int k){
         return false;
     }
 
     public int getKey(){
-        return 0;
+        return -1;
     }
 
     public void print(){
-        System.out.print("- ");
+        System.out.print("-/ ");
     }
 }
 
@@ -50,17 +48,12 @@ class BinaryNode implements Node {
     }
 
     public void addNode(Node new_node){
-        if (new_node instanceof NullNode){
-            return;
-        }
-
         if (new_node.getKey() >= this.key) {
-            if (right instanceof NullNode) right = new_node;
+            if (right.getKey() < 0) right = new_node;
             else right.addNode(new_node);
         }
-
         else {
-            if (left instanceof NullNode) left = new_node;
+            if (left.getKey() < 0) left = new_node;
             else left.addNode(new_node);
         }
     }
